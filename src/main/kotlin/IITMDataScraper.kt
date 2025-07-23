@@ -8,9 +8,9 @@ import java.io.File
 const val iitmBaseUrl = "https://study.iitm.ac.in/ds"
 const val ytVideoUrl = "https://www.youtube.com/watch?v="
 val coursePagePattern = "course_pages/(.+).html".toRegex()
-const val ytDlpPath = "D:\\Downloads\\yt-dlp.exe"
-const val subtitleDownloadCommand = "$ytDlpPath --write-sub --write-auto-sub --sub-lang \"en\" --skip-download"
-const val playlistMetadataCommand = "$ytDlpPath --flat-playlist --print \"%(id)s\t%(title)s\""
+val ytDlpPath = System.getenv("YT_DLP_PATH")
+val subtitleDownloadCommand = "$ytDlpPath --write-sub --write-auto-sub --sub-lang \"en\" --skip-download"
+val playlistMetadataCommand = "$ytDlpPath --flat-playlist --print \"%(id)s\t%(title)s\""
 
 fun main(): Unit = runBlocking {
     println("Connecting to $iitmBaseUrl...")
