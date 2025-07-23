@@ -34,7 +34,7 @@ fun main(): Unit = runBlocking {
                 .filterSuccessful()
         }
         .toJSON()
-        .also { File("result.json").writeText(it.toPrettyString()) }
+        .also { File("scrape-output/result.json").also { it.parentFile.mkdirs() }.writeText(it.toPrettyString()) }
 }
 
 fun parseCourseDetails(doc: Document): Course {
