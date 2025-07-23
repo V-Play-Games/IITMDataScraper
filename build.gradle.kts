@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "2.1.21"
+    application
 }
 
 group = "com.github.v-play-games"
@@ -21,4 +22,7 @@ tasks.test {
 }
 kotlin {
     jvmToolchain(21)
+}
+application {
+    mainClass = "IITMDataScraperKt"
 }
