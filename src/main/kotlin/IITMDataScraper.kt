@@ -101,27 +101,27 @@ suspend fun downloadSubtitles(course: Course, lecture: Lecture) {
             )
         delay((Math.random() * 10_000).toLong())
     }
-    val normalizedSubtitleFile = File(subtitleCacheDir, "$lectureId.txt")
-    if (!normalizedSubtitleFile.exists()) {
-        normalizedSubtitleFile.writeText(vttToText(subtitleFile.readText()))
+    if (subtitleFile.exists()) {
+        val normalizedSubtitleFile = File(subtitleCacheDir, "$lectureId.txt")
+        if (!normalizedSubtitleFile.exists()) {
+            normalizedSubtitleFile.writeText(vttToText(subtitleFile.readText()))
+        }
+        lecture.transcript = normalizedSubtitleFile.readText()
     }
-    lecture.transcript = normalizedSubtitleFile.readText()
 }
 
-fun vttToText(vttContent: String): String {
-    return vttContent.lines()
-        .filter { line ->
-            // Skip VTT header, timestamps, and empty lines
-            !line.startsWith("WEBVTT") &&
-                    !line.startsWith("Language: ") &&
-                    !line.startsWith("Kind: ") &&
-                    !line.startsWith("NOTE") &&
-                    !line.contains("-->") &&
-                    !line.matches(Regex("\\d+")) &&
-                    line.isNotBlank()
-        }
-        .joinToString(" ")
-        .replace(Regex("<[^>]*>"), "") // Remove HTML tags
-        .replace(Regex("\\s+"), " ") // Normalize whitespace
-        .trim()
-}
+fun vttToText(vttContent: String) = vttContent.lines()
+    .filter { line ->
+        // Skip VTT header, timestamps, and empty lines
+        !line.startsWith("WEBVTT") &&
+                !line.startsWith("Language: ") &&
+                !line.startsWith("Kind: ") &&
+                !line.startsWith("NOTE") &&
+                !line.contains("-->") &&
+                !line.matches(Regex("\\d+")) &&
+                line.isNotBlank()
+    }
+    .joinToString(" ")
+    .replace(Regex("<[^>]*>"), "") // Remove HTML tags
+    .replace(Regex("\\s+"), " ") // Normalize whitespace
+    .trim()
